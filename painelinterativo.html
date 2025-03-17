@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Avião Interativo</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+    <header>
+        <h1>Painel de Avião Interativo</h1>
+    </header>
+
+    <section id="mapa">
+        <h2>Selecione os países</h2>
+        <label for="origem">País de Origem:</label>
+        <select id="origem" onchange="calcularDistancia()">
+            <option value="BR">Brasil</option>
+            <option value="US">Estados Unidos</option>
+            <option value="FR">França</option>
+            <option value="JP">Japão</option>
+            <option value="DE">Alemanha</option>
+            <option value="UK">Reino Unido</option>
+            <option value="CA">Canadá</option>
+            <option value="AU">Austrália</option>
+            <option value="RU">Rússia</option>
+            <option value="CN">China</option>
+            <option value="IN">Índia</option>
+            <option value="ZA">África do Sul</option>
+        </select>
+        
+        <label for="destino">País de Destino:</label>
+        <select id="destino" onchange="calcularDistancia()">
+            <option value="BR">Brasil</option>
+            <option value="US">Estados Unidos</option>
+            <option value="FR">França</option>
+            <option value="JP">Japão</option>
+            <option value="DE">Alemanha</option>
+            <option value="UK">Reino Unido</option>
+            <option value="CA">Canadá</option>
+            <option value="AU">Austrália</option>
+            <option value="RU">Rússia</option>
+            <option value="CN">China</option>
+            <option value="IN">Índia</option>
+            <option value="ZA">África do Sul</option>
+        </select>
+        
+        <h2>Distância: <span id="distancia">0</span> </h2>
+        <h2>Tempo Estimado: <span id="tempo">0</span> </h2>
+        <div id="mapa-container" style="height: 400px;"></div>
+    </section>
+
+    <section id="painel-controle">
+        <div class="controle">
+            <h2>Velocidade: <span id="velocidade">0</span> km/h</h2>
+            <button onclick="alterarVelocidade(50)">Acelerar</button>
+            <button onclick="alterarVelocidade(-50)">Reduzir</button>
+        </div>
+        <div class="controle">
+            <h2>Altitude: <span id="altitude">0</span> m</h2>
+            <button onclick="alterarAltitude(500)">Subir</button>
+            <button onclick="alterarAltitude(-500)">Descer</button>
+        </div>
+        <div class="controle">
+            <h2>Flaps: <span id="flaps">0</span>%</h2>
+            <button onclick="ajustarFlaps(10)">Aumentar</button>
+            <button onclick="ajustarFlaps(-10)">Diminuir</button>
+        </div>
+        <div class="controle">
+            <h2>Direção: <span id="direcao">Norte</span></h2>
+            <button onclick="mudarDirecao('esquerda')">⟵</button>
+            <button onclick="mudarDirecao('direita')">⟶</button>
+        </div>
+        <div class="controle">
+            <h2>Trem de Pouso: <span id="trem">Baixado</span></h2>
+            <button onclick="alternarTrem()">Alternar</button>
+        </div>
+        <div class="controle">
+            <h2>Combustível: <span id="combustivel">100</span></h2>
+            <button onclick="alterarCombustivel(-5)">Reduzir</button>
+            <button onclick="alterarCombustivel(5)">Aumentar</button>
+        </div>
+        
+
+            
+
+    </section>
+
+</body>
+</html>
+
