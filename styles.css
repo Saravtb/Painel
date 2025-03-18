@@ -1,110 +1,117 @@
 /* Estilos gerais */
+*{
+  user-select: none;  
+}
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f0f4f8;
-    color: #333;
-  }
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #1B1B1B;
+  color: #FFD700;
+}
+
+header, footer {
+  background-color: #002244;
+  color: #FFD700;
+  text-align: center;
+  padding: 15px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.7);
+}
+
+h1 {
+  margin: 0;
+  font-size: 2.5em;
+}
+
+main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 30px;
+}
+
+#painel {
+  flex: 1 1 300px;
+  max-width: 400px;
+  background-color: #002244;
+  border: 2px solid #FFD700;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+  transition: transform 0.3s;
+}
+
+#painel:hover {
+  transform: scale(1.02);
+}
+
+.medidor {
+  margin-bottom: 20px;
+  text-align: center;
+  user-select: none;  
+}
+
+.display {
+  font-size: 2.2em;
+  margin: 10px auto;
+  color: #144f8a;
+  text-align: center;
+  user-select: none;  
+}
+
+.medidor button {
+  background-color: #023262;
+  color: #FFD700;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  display: inline-block;
+  margin-top: 10px;
   
-  header, footer {
-    background-color: #002244; /* Azul escuro */
-    color: #FFD700; /* Dourado */
-    text-align: center;
-    padding: 10px 0;
-  }
-  
-  header p {
-    font-size: 0.9em;
-  }
-  
-  h1, h2 {
-    margin: 10px 0;
-  }
-  
-  /* Layout do main */
-  main {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 20px;
-  }
-  
-  /* Estilo para o painel de controle */
-  #painel {
-    flex: 1 1 300px;
-    max-width: 400px;
-    background-color: #fff;
-    border: 2px solid #002244;
-    border-radius: 8px;
-    padding: 15px;
-    margin: 10px;
-  }
-  
-  .medidor {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .display {
-    font-size: 2em;
-    margin: 10px 0;
-    color: #002244;
-  }
-  
-  .info {
-    font-size: 0.8em;
-    color: #555;
-  }
-  
-  /* Botões */
-  button {
-    background-color: #002244;
-    color: #FFD700;
-    border: none;
-    padding: 8px 15px;
-    margin: 5px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #001122;
-  }
-  
-  /* Estilo para a seção do mapa */
-  #mapa-container {
-    flex: 2 1 600px;
-    margin: 10px;
-  }
-  
-  #map {
-    height: 400px;
-    border: 2px solid #002244;
-    border-radius: 8px;
-  }
-  
-  /* Seção de seleção de países */
-  #selecao-paises {
-    margin-top: 15px;
-    text-align: center;
-  }
-  
-  label, select {
-    margin: 5px;
-  }
-  
-  #infoRota {
-    margin-top: 10px;
-    text-align: center;
-    font-size: 1.1em;
-  }
-  
-  /* Marcadores customizados no mapa */
-  .custom-marker .marker-pin {
-    width: 20px;
-    height: 20px;
-    background-color: #002244; /* Azul escuro */
-    border: 3px solid #FFD700; /* Dourado */
-    border-radius: 50%;
-  }
-  
+}
+
+.medidor button:hover {
+  background-color: #011b34;
+  transform: scale(1.05);
+}
+
+#mapa-container {
+  flex: 2 1 600px;
+  margin: 15px;
+  text-align: center;
+}
+
+#map {
+  height: 400px;
+  border: 2px solid #002244;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+}
+
+#selecao-paises {
+  margin-top: 15px;
+  text-align: center;
+}
+
+label, select {
+  margin: 5px;
+  padding: 8px;
+  border: 1px solid #FFD700;
+  border-radius: 5px;
+  background-color: #002244;
+  color: #FFD700;
+}
+
+#infoRota {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 1.2em;
+  color: #FFD700;
+}
+
+.fa {
+  margin-right: 5px;
+}

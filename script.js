@@ -78,11 +78,23 @@ document.getElementById('btnReduzirFlaps').addEventListener('click', () => {
 // Trem de Pouso
 document.getElementById('btnAlternarTrem').addEventListener('click', () => {
   if (controleHabilitado()) {
-    tremPouso = !tremPouso;
-    const status = tremPouso ? 'Baixado' : 'Recolhido';
-    atualizarDisplay('tremDisplay', status);
+    if (altitude < 100) { // Trem de pouso fica baixado automaticamente quando a altitude é menor que 100
+      tremPouso = true;
+      atualizarDisplay('tremDisplay', 'Baixado');
+      alert('Altitude muito baixa! O trem de pouso foi automaticamente baixado.');
+    } else if (tremPouso && velocidade >= 100) { // Recolher o trem de pouso
+      tremPouso = false;
+      atualizarDisplay('tremDisplay', 'Recolhido');
+    } else if (!tremPouso && velocidade < 100) { // Tentativa de recolher o trem de pouso sem velocidade suficiente
+      alert('O avião ainda não tem altitude para recolher o trem de pouso');
+    } else { // Baixar o trem de pouso manualmente
+      tremPouso = true;
+      atualizarDisplay('tremDisplay', 'Baixado');
   }
+}
 });
+
+
 
 // ------------------------------
 // Piloto Automático

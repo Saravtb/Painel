@@ -15,53 +15,43 @@
   </header>
 
   <main>
-    <!-- Seção do painel de controle -->
     <section id="painel">
-      <!-- 1. Velocímetro Interativo -->
       <div class="medidor">
-        <h2>Velocidade (km/h)</h2>
+        <h2><i class="fa-solid fa-tachometer-alt"></i> Velocidade (km/h)</h2>
         <div id="velocidadeDisplay" class="display">0</div>
-        <button id="btnAcelerar">Acelerar</button>
-        <button id="btnDesacelerar">Desacelerar</button>
+        <div><button id="btnAcelerar">Acelerar</button> <button id="btnDesacelerar">Desacelerar</button></div>
       </div>
 
-      <!-- 2. Altímetro Dinâmico -->
       <div class="medidor">
-        <h2>Altitude (m)</h2>
+        <h2><i class="fa-solid fa-mountain"></i> Altitude (m)</h2>
         <div id="altitudeDisplay" class="display">0</div>
-        <button id="btnSubir">Subir</button>
-        <button id="btnDescer">Descer</button>
+        <div><button id="btnSubir">Subir</button> <button id="btnDescer">Descer</button></div>
       </div>
 
-      <!-- Sistema de Combustível Realista -->
       <div class="medidor">
-        <h2>Combustível (%)</h2>
+        <h2><i class="fa-solid fa-gas-pump"></i> Combustível (%)</h2>
         <div id="combustivelDisplay" class="display">100</div>
         <p class="info">Autonomia: ~13500 km com 100% de combustível</p>
       </div>
 
-      <!-- 3. Controle de Flaps -->
       <div class="medidor">
-        <h2>Flaps (%)</h2>
+        <h2><i class="fa-solid fa-wind"></i> Flaps (%)</h2>
         <div id="flapsDisplay" class="display">0</div>
-        <button id="btnAumentarFlaps">Aumentar Flaps</button>
-        <button id="btnReduzirFlaps">Reduzir Flaps</button>
+        <div><button id="btnAumentarFlaps">Aumentar Flaps</button> <button id="btnReduzirFlaps">Reduzir Flaps</button></div>
       </div>
 
-      <!-- 4. Piloto Automático -->
       <div class="medidor">
-        <h2>Piloto Automático</h2>
-        <button id="btnAtivarAP">Ativar Autopilot</button>
-        <button id="btnDesativarAP" disabled>Desativar Autopilot</button>
+        <h2><i class="fa-solid fa-plane-departure"></i> Piloto Automático</h2>
+        <div><button id="btnAtivarAP">Ativar Autopilot</button> <button id="btnDesativarAP" disabled>Desativar Autopilot</button></div>
       </div>
 
-      <!-- 5. Alternância do Trem de Pouso -->
       <div class="medidor">
-        <h2>Trem de Pouso</h2>
-        <div id="tremDisplay" class="display">Recolhido</div>
-        <button id="btnAlternarTrem">Alternar Trem</button>
+        <h2><i class="fa-solid fa-plane-slash"></i> Trem de Pouso</h2>
+        <div id="tremDisplay" class="display">Baixado</div>
+        <div><button id="btnAlternarTrem">Alternar Trem</button></div>
       </div>
     </section>
+
 
     <!-- Seção do mapa interativo -->
     <section id="mapa-container">
@@ -110,11 +100,6 @@
       </div>
     </section>
   </main>
-
-  <footer>
-    <p>&copy; 2025 Painel de Avião Interativo</p>
-  </footer>
-
   <!-- Script do Leaflet -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <!-- Script personalizado -->
