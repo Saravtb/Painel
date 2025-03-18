@@ -1,131 +1,234 @@
+// ------------------------------
+// Variáveis do painel e parâmetros
+// ------------------------------
 let velocidade = 0;
 let altitude = 0;
+let combustivel = 100; // % de combustível
 let flaps = 0;
-let direcao = "Norte";
-let tremPouso = "Baixado";
-let rota;
-let combustivel = 100;  // Inicialmente, 100% de combustível
+let tremPouso = false; // false: recolhido, true: baixado
+let autopilot = false;  // modo piloto automático
+const autonomiaTotal = 6500; // autonomia total em km com 100% de combustível
 
-const coordenadas = {
-    'BR': [-14.2350, -51.9253],  
-    'US': [37.0902, -95.7129],   
-    'FR': [46.6034, 1.8883], 
-    'JP': [36.2048, 138.2529],   
-    'DE': [51.1657, 10.4515],    
-    'UK': [55.3781, -3.4360],    
-    'CA': [56.1304, -106.3468],  
-    'AU': [-25.2744, 133.7751],  
-    'RU': [61.5240, 105.3188],   
-    'CN': [35.8617, 104.1954],   
-    'IN': [20.5937, 78.9629],    
-    'ZA': [-30.5595, 22.9375]     
+// ------------------------------
+// Função para atualizar displays
+// ------------------------------
+function atualizarDisplay(id, valor) {
+  document.getElementById(id).textContent = valor;
+}
+
+// ------------------------------
+// Eventos dos botões (desabilitam controle se autopilot estiver ativo)
+// ------------------------------
+function controleHabilitado() {
+  return !autopilot;
+}
+
+// Velocidade
+document.getElementById('btnAcelerar').addEventListener('click', () => {
+  if (controleHabilitado()) {
+    velocidade += 10;
+    // Consumo: cada aceleração consome 0.5% de combustível
+    combustivel = Math.max(combustivel - 0.5, 0);
+    atualizarDisplay('velocidadeDisplay', velocidade);
+    atualizarDisplay('combustivelDisplay', combustivel.toFixed(1));
+  }
+});
+
+document.getElementById('btnDesacelerar').addEventListener('click', () => {
+  if (controleHabilitado()) {
+    velocidade = Math.max(velocidade - 10, 0);
+    atualizarDisplay('velocidadeDisplay', velocidade);
+  }
+});
+
+// Altitude
+document.getElementById('btnSubir').addEventListener('click', () => {
+  if (controleHabilitado()) {
+    if (velocidade >= 150) { // velocidade mínima para subir
+      altitude += 100;
+      atualizarDisplay('altitudeDisplay', altitude);
+    } else {
+      alert('Velocidade mínima para subir é 150 km/h!');
+    }
+  }
+});
+
+document.getElementById('btnDescer').addEventListener('click', () => {
+  if (controleHabilitado()) {
+    altitude = Math.max(altitude - 100, 0);
+    atualizarDisplay('altitudeDisplay', altitude);
+  }
+});
+
+// Flaps
+document.getElementById('btnAumentarFlaps').addEventListener('click', () => {
+  if (controleHabilitado() && flaps < 40) {
+    flaps += 10;
+    atualizarDisplay('flapsDisplay', flaps);
+  }
+});
+
+document.getElementById('btnReduzirFlaps').addEventListener('click', () => {
+  if (controleHabilitado() && flaps > 0) {
+    flaps -= 10;
+    atualizarDisplay('flapsDisplay', flaps);
+  }
+});
+
+// Trem de Pouso
+document.getElementById('btnAlternarTrem').addEventListener('click', () => {
+  if (controleHabilitado()) {
+    tremPouso = !tremPouso;
+    const status = tremPouso ? 'Baixado' : 'Recolhido';
+    atualizarDisplay('tremDisplay', status);
+  }
+});
+
+// ------------------------------
+// Piloto Automático
+// ------------------------------
+document.getElementById('btnAtivarAP').addEventListener('click', () => {
+  autopilot = true;
+  // Desabilita controles manuais
+  document.getElementById('btnAtivarAP').disabled = true;
+  document.getElementById('btnDesativarAP').disabled = false;
+  
+  // Define parâmetros do autopilot: velocidade de cruzeiro e altitude padrão
+  const velocidadeAlvo = 800;  // km/h (valor ilustrativo)
+  const altitudeAlvo = 10000;  // m
+  
+  // Atualiza gradualmente os valores (de forma simplificada)
+  velocidade = velocidadeAlvo;
+  altitude = altitudeAlvo;
+  atualizarDisplay('velocidadeDisplay', velocidade);
+  atualizarDisplay('altitudeDisplay', altitude);
+  
+  // Exibe mensagem de ativação
+  alert('Piloto Automático ativado. Controle manual desabilitado.');
+});
+
+document.getElementById('btnDesativarAP').addEventListener('click', () => {
+  autopilot = false;
+  document.getElementById('btnAtivarAP').disabled = false;
+  document.getElementById('btnDesativarAP').disabled = true;
+  alert('Piloto Automático desativado. Controles manuais reativados.');
+});
+
+// ------------------------------
+// Configuração do Mapa com Leaflet e OpenStreetMap
+// ------------------------------
+const map = L.map('map').setView([48.8566, 2.3522], 4); // Centralizado em Paris
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+// Coordenadas dos países (incluindo os 13 da lista)
+const coordenadasPaises = {
+  'BR': { lat: -14.2350, lng: -51.9253 },
+  'US': { lat: 37.0902, lng: -95.7129 },
+  'FR': { lat: 46.6034, lng: 1.8883 },
+  'DE': { lat: 51.1657, lng: 10.4515 },
+  'IT': { lat: 41.8719, lng: 12.5674 },
+  'ES': { lat: 40.4637, lng: -3.7492 },
+  'UK': { lat: 55.3781, lng: -3.4360 },
+  'JP': { lat: 36.2048, lng: 138.2529 },
+  'AU': { lat: -25.2744, lng: 133.7751 },
+  'CA': { lat: 56.1304, lng: -106.3468 },
+  'CN': { lat: 35.8617, lng: 104.1954 },
+  'RU': { lat: 61.5240, lng: 105.3188 },
+  'IN': { lat: 20.5937, lng: 78.9629 }
 };
 
-const mapa = L.map('mapa-container').setView([0, 0], 2);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapa);
+// Marcador customizado (paleta: azul escuro e dourado)
+const customIcon = L.divIcon({
+  className: 'custom-marker',
+  html: '<div class="marker-pin"></div>',
+  iconSize: [20, 20],
+  iconAnchor: [10, 10]
+});
 
-// Função para alterar o nível de velocidade
-function alterarVelocidade(valor) {
-    velocidade = Math.max(0, velocidade + valor);
-    document.getElementById('velocidade').textContent = velocidade;
-    calcularDistancia();
+let rota, markerOrigem, markerDestino;
+
+// Função para calcular a distância (fórmula haversine)
+function calcularDistancia(lat1, lng1, lat2, lng2) {
+  const R = 6371; // Raio da Terra (km)
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLng/2) * Math.sin(dLng/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  const distancia = R * c;
+  return distancia.toFixed(2);
 }
 
-// Função para alterar a altitude
-function alterarAltitude(valor) {
-    if (velocidade >= 200 || valor < 0) {
-        altitude = Math.max(0, altitude + valor);
-        document.getElementById('altitude').textContent = altitude;
+// ------------------------------
+// Cálculo da rota e verificação de combustível
+// ------------------------------
+document.getElementById('btnCalcularRota').addEventListener('click', () => {
+  const origemValue = document.getElementById('origem').value;
+  const destinoValue = document.getElementById('destino').value;
+
+    // Verifica se a origem e o destino são iguais
+    if (origemValue === destinoValue) {
+      alert('Rota inválida! O país de origem e destino não podem ser o mesmo.');
+      
+      // Limpa rota e marcadores, se houver
+      if (rota) { map.removeLayer(rota); rota = null; }
+      if (markerOrigem) { map.removeLayer(markerOrigem); markerOrigem = null; }
+      if (markerDestino) { map.removeLayer(markerDestino); markerDestino = null; }
+  
+      // Limpa informações de distância e tempo no display
+      document.getElementById('distancia').textContent = '-';
+      document.getElementById('tempoVoo').textContent = '-';
+      
+      return; // Sai da função, não continua
     }
-}
+  
 
-// Função para ajustar os flaps
-function ajustarFlaps(valor) {
-    flaps = Math.min(40, Math.max(0, flaps + valor));
-    document.getElementById('flaps').textContent = flaps;
-}
-
-// Função para mudar a direção
-function mudarDirecao(sentido) {
-    const direcoes = ["Norte", "Leste", "Sul", "Oeste"];
-    let index = direcoes.indexOf(direcao);
-    if (sentido === "direita") index = (index + 1) % 4;
-    else index = (index - 1 + 4) % 4;
-    direcao = direcoes[index];
-    document.getElementById("direcao").textContent = direcao;
-}
-
-// Função para alternar o trem de pouso
-function alternarTrem() {
-    tremPouso = tremPouso === "Baixado" ? "Recolhido" : "Baixado";
-    document.getElementById("trem").textContent = tremPouso;
-}
-
-// Função para alterar o nível de combustível
-function alterarCombustivel(valor) {
-    combustivel = Math.max(0, Math.min(100, combustivel + valor));
-    document.getElementById('combustivel').textContent = combustivel + '%';
-}
-
-// Função para calcular o consumo de combustível com base na distância
-function calcularConsumoCombustivel(distancia) {
-    const consumoPorKm = 0.005;  // 0,00005% de combustível consumido por km
-    let consumo = distancia * consumoPorKm;
-    combustivel = Math.max(0, combustivel - consumo);
-    document.getElementById('combustivel').textContent = combustivel.toFixed(2) + '%';
-}
-
-// Função para calcular distância usando a fórmula de Haversine
-function calcularDistanciaHaversine(lat1, lon1, lat2, lon2) {
-    const R = 6371;  // Raio da Terra em km
-    const dLat = (lat2 - lat1) * (Math.PI / 180);
-    const dLon = (lon2 - lon1) * (Math.PI / 180);
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-              Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
-              Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;  // Distância em km
-}
-
-// Função para calcular e traçar a rota, além de atualizar distância, tempo e combustível
-function calcularDistancia() {
-    const origem = document.getElementById('origem').value;
-    const destino = document.getElementById('destino').value;
-
-    if (origem === destino) {
-        document.getElementById('distancia').textContent = "0 km";
-        document.getElementById('tempo').textContent = "0 h";
-        return;
+  if (coordenadasPaises[origemValue] && coordenadasPaises[destinoValue]) {
+    const origemCoords = coordenadasPaises[origemValue];
+    const destinoCoords = coordenadasPaises[destinoValue];
+    
+    // Calcula a distância da rota
+    const distancia = calcularDistancia(origemCoords.lat, origemCoords.lng, destinoCoords.lat, destinoCoords.lng);
+    document.getElementById('distancia').textContent = distancia;
+    
+    // Calcula o tempo estimado de voo com base na velocidade atual (se velocidade > 0)
+    let tempoVoo = velocidade > 0 ? (distancia / velocidade).toFixed(2) : 0;
+    document.getElementById('tempoVoo').textContent = tempoVoo;
+    
+    // Verifica se há combustível suficiente:
+    // Combustível disponível em km = (combustível% / 100) * autonomiaTotal
+    const combustivelDisponivel = (combustivel / 100) * autonomiaTotal;
+    if (distancia > combustivelDisponivel) {
+      alert('Combustível insuficiente para realizar o voo!');
+      return;
     }
-
-    const [latOrigem, lonOrigem] = coordenadas[origem];
-    const [latDestino, lonDestino] = coordenadas[destino];
-
-    const distancia = calcularDistanciaHaversine(latOrigem, lonOrigem, latDestino, lonDestino);
-    document.getElementById('distancia').textContent = `${distancia.toFixed(2)} km`;
-
-    const tempo = velocidade > 0 ? distancia / velocidade : 0;
-    document.getElementById('tempo').textContent = `${tempo.toFixed(2)} h`;
-
-    // Calcular o consumo de combustível com base na distância
-    calcularConsumoCombustivel(distancia);
-
-    // Verifica se a rota já existe no mapa e remove se necessário
-    if (rota) {
-        mapa.removeControl(rota);
-    }
-
-    // Adiciona a nova rota
-    rota = L.Routing.control({
-        waypoints: [
-            L.latLng(latOrigem, lonOrigem),
-            L.latLng(latDestino, lonDestino)
-        ],
-        routeWhileDragging: true
-    }).addTo(mapa);
-
-    // Ajuste de zoom para a rota
-    mapa.fitBounds(rota.getBounds());
-}
+    
+    // Remove rota e marcadores antigos (se existirem)
+    if (rota) { map.removeLayer(rota); }
+    if (markerOrigem) { map.removeLayer(markerOrigem); }
+    if (markerDestino) { map.removeLayer(markerDestino); }
+    
+    // Desenha a rota no mapa
+    rota = L.polyline([
+      [origemCoords.lat, origemCoords.lng],
+      [destinoCoords.lat, destinoCoords.lng]
+    ], { color: '#FFD700', weight: 4 }).addTo(map);
+    
+    // Adiciona marcadores customizados
+    markerOrigem = L.marker([origemCoords.lat, origemCoords.lng], { icon: customIcon }).addTo(map);
+    markerDestino = L.marker([destinoCoords.lat, destinoCoords.lng], { icon: customIcon }).addTo(map);
+    
+    // Ajusta o zoom e centraliza a rota
+    map.fitBounds(rota.getBounds());
+    
+  } else {
+    alert('Selecione países válidos!');
+  }
+});
 
 

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Painel de Avião Interativo - Estudo Inspirado na Azul</title>
+  <!-- Link para o CSS do Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <!-- Link para o CSS personalizado -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Painel de Avião Interativo</h1>
+  </header>
+
+  <main>
+    <!-- Seção do painel de controle -->
+    <section id="painel">
+      <!-- 1. Velocímetro Interativo -->
+      <div class="medidor">
+        <h2>Velocidade (km/h)</h2>
+        <div id="velocidadeDisplay" class="display">0</div>
+        <button id="btnAcelerar">Acelerar</button>
+        <button id="btnDesacelerar">Desacelerar</button>
+      </div>
+
+      <!-- 2. Altímetro Dinâmico -->
+      <div class="medidor">
+        <h2>Altitude (m)</h2>
+        <div id="altitudeDisplay" class="display">0</div>
+        <button id="btnSubir">Subir</button>
+        <button id="btnDescer">Descer</button>
+      </div>
+
+      <!-- Sistema de Combustível Realista -->
+      <div class="medidor">
+        <h2>Combustível (%)</h2>
+        <div id="combustivelDisplay" class="display">100</div>
+        <p class="info">Autonomia: ~6500 km com 100% de combustível</p>
+      </div>
+
+      <!-- 3. Controle de Flaps -->
+      <div class="medidor">
+        <h2>Flaps (%)</h2>
+        <div id="flapsDisplay" class="display">0</div>
+        <button id="btnAumentarFlaps">Aumentar Flaps</button>
+        <button id="btnReduzirFlaps">Reduzir Flaps</button>
+      </div>
+
+      <!-- 4. Piloto Automático -->
+      <div class="medidor">
+        <h2>Piloto Automático</h2>
+        <button id="btnAtivarAP">Ativar Autopilot</button>
+        <button id="btnDesativarAP" disabled>Desativar Autopilot</button>
+      </div>
+
+      <!-- 5. Alternância do Trem de Pouso -->
+      <div class="medidor">
+        <h2>Trem de Pouso</h2>
+        <div id="tremDisplay" class="display">Recolhido</div>
+        <button id="btnAlternarTrem">Alternar Trem</button>
+      </div>
+    </section>
+
+    <!-- Seção do mapa interativo -->
+    <section id="mapa-container">
+      <h2>Mapa Interativo</h2>
+      <div id="map"></div>
+      <!-- Seção de seleção de países -->
+      <div id="selecao-paises">
+        <label for="origem">País de Origem:</label>
+        <select id="origem">
+          <option value="BR">Brasil</option>
+          <option value="US">Estados Unidos</option>
+          <option value="FR">França</option>
+          <option value="DE">Alemanha</option>
+          <option value="IT">Itália</option>
+          <option value="ES">Espanha</option>
+          <option value="UK">Reino Unido</option>
+          <option value="JP">Japão</option>
+          <option value="AU">Austrália</option>
+          <option value="CA">Canadá</option>
+          <option value="CN">China</option>
+          <option value="RU">Rússia</option>
+          <option value="IN">Índia</option>
+        </select>
+
+        <label for="destino">País de Destino:</label>
+        <select id="destino">
+          <option value="US">Estados Unidos</option>
+          <option value="BR">Brasil</option>
+          <option value="FR">França</option>
+          <option value="DE">Alemanha</option>
+          <option value="IT">Itália</option>
+          <option value="ES">Espanha</option>
+          <option value="UK">Reino Unido</option>
+          <option value="JP">Japão</option>
+          <option value="AU">Austrália</option>
+          <option value="CA">Canadá</option>
+          <option value="CN">China</option>
+          <option value="RU">Rússia</option>
+          <option value="IN">Índia</option>
+        </select>
+        <button id="btnCalcularRota">Calcular Rota</button>
+      </div>
+      <div id="infoRota">
+        <p>Distância: <span id="distancia">0</span> km</p>
+        <p>Tempo Estimado de Voo: <span id="tempoVoo">0</span> h</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Painel de Avião Interativo</p>
+  </footer>
+
+  <!-- Script do Leaflet -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- Script personalizado -->
+  <script src="script.js"></script>
+</body>
+</html>
