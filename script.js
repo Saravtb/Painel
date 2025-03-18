@@ -1,4 +1,4 @@
-let velocidade = 800;
+let velocidade = 0;
 let altitude = 0;
 let flaps = 0;
 let direcao = "Norte";

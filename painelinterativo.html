@@ -1,24 +1,35 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel de Avião Interativo</title>
-    <link rel="stylesheet" href="styles.css">
-    <script defer src="script.js"></script>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-</head>
-<body>
-    <header>
-        <h1>Painel de Avião Interativo</h1>
-    </header>
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel de Avião Interativo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1><i class="fas fa-plane-departure"></i> Painel de Avião Interativo</h1>
+  </header>
+
+  <main>
     <section id="mapa">
-        <h2>Selecione os países</h2>
-        <label for="origem">País de Origem:</label>
-        <select id="origem" onchange="calcularDistancia()">
+      <div class="section-header">
+        <h2><i class="fas fa-globe"></i> Selecione os Países</h2>
+      </div>
+      <div class="dropdown-container">
+        <div class="dropdown">
+          <label for="origem">Origem:</label>
+          <select id="origem" onchange="calcularDistancia()">
             <option value="BR">Brasil</option>
             <option value="US">Estados Unidos</option>
             <option value="FR">França</option>
@@ -31,10 +42,12 @@
             <option value="CN">China</option>
             <option value="IN">Índia</option>
             <option value="ZA">África do Sul</option>
-        </select>
-        
-        <label for="destino">País de Destino:</label>
-        <select id="destino" onchange="calcularDistancia()">
+          </select>
+        </div>
+
+        <div class="dropdown">
+          <label for="destino">Destino:</label>
+          <select id="destino" onchange="calcularDistancia()">
             <option value="BR">Brasil</option>
             <option value="US">Estados Unidos</option>
             <option value="FR">França</option>
@@ -47,49 +60,59 @@
             <option value="CN">China</option>
             <option value="IN">Índia</option>
             <option value="ZA">África do Sul</option>
-        </select>
-        
-        <h2>Distância: <span id="distancia">0</span> </h2>
-        <h2>Tempo Estimado: <span id="tempo">0</span> </h2>
-        <div id="mapa-container" style="height: 400px;"></div>
+          </select>
+        </div>
+      </div>
+
+      <div class="info-panel">
+        <h2><i class="fas fa-ruler-combined"></i> Distância: <span id="distancia">0</span></h2>
+        <h2><i class="fas fa-clock"></i> Tempo Estimado: <span id="tempo">0</span></h2>
+      </div>
+
+      <div id="mapa-container"></div>
     </section>
 
     <section id="painel-controle">
-        <div class="controle">
-            <h2>Velocidade: <span id="velocidade">0</span> km/h</h2>
-            <button onclick="alterarVelocidade(50)">Acelerar</button>
-            <button onclick="alterarVelocidade(-50)">Reduzir</button>
-        </div>
-        <div class="controle">
-            <h2>Altitude: <span id="altitude">0</span> m</h2>
-            <button onclick="alterarAltitude(500)">Subir</button>
-            <button onclick="alterarAltitude(-500)">Descer</button>
-        </div>
-        <div class="controle">
-            <h2>Flaps: <span id="flaps">0</span>%</h2>
-            <button onclick="ajustarFlaps(10)">Aumentar</button>
-            <button onclick="ajustarFlaps(-10)">Diminuir</button>
-        </div>
-        <div class="controle">
-            <h2>Direção: <span id="direcao">Norte</span></h2>
-            <button onclick="mudarDirecao('esquerda')">⟵</button>
-            <button onclick="mudarDirecao('direita')">⟶</button>
-        </div>
-        <div class="controle">
-            <h2>Trem de Pouso: <span id="trem">Baixado</span></h2>
-            <button onclick="alternarTrem()">Alternar</button>
-        </div>
-        <div class="controle">
-            <h2>Combustível: <span id="combustivel">100</span></h2>
-            <button onclick="alterarCombustivel(-5)">Reduzir</button>
-            <button onclick="alterarCombustivel(5)">Aumentar</button>
-        </div>
-        
+      <div class="controle">
+        <h2><i class="fas fa-tachometer-alt"></i> Velocidade: <span id="velocidade">0</span> km/h</h2>
+        <button onclick="alterarVelocidade(50)"><i class="fas fa-plus"></i> Acelerar</button>
+        <button onclick="alterarVelocidade(-50)"><i class="fas fa-minus"></i> Reduzir</button>
+      </div>
 
-            
+      <div class="controle">
+        <h2><i class="fas fa-arrows-alt-v"></i> Altitude: <span id="altitude">0</span> m</h2>
+        <button onclick="alterarAltitude(500)"><i class="fas fa-arrow-up"></i> Subir</button>
+        <button onclick="alterarAltitude(-500)"><i class="fas fa-arrow-down"></i> Descer</button>
+      </div>
 
+      <div class="controle">
+        <h2><i class="fas fa-sliders-h"></i> Flaps: <span id="flaps">0</span>%</h2>
+        <button onclick="ajustarFlaps(10)"><i class="fas fa-plus"></i> Aumentar</button>
+        <button onclick="ajustarFlaps(-10)"><i class="fas fa-minus"></i> Diminuir</button>
+      </div>
+
+      <div class="controle">
+        <h2><i class="fas fa-compass"></i> Direção: <span id="direcao">Norte</span></h2>
+        <button onclick="mudarDirecao('esquerda')"><i class="fas fa-arrow-left"></i></button>
+        <button onclick="mudarDirecao('direita')"><i class="fas fa-arrow-right"></i></button>
+      </div>
+
+      <div class="controle">
+        <h2><i class="fas fa-warehouse"></i> Trem de Pouso: <span id="trem">Baixado</span></h2>
+        <button onclick="alternarTrem()"><i class="fas fa-exchange-alt"></i> Alternar</button>
+      </div>
+
+      <div class="controle">
+        <h2><i class="fas fa-gas-pump"></i> Combustível: <span id="combustivel">100%</span></h2>
+        <button onclick="alterarCombustivel(-5)"><i class="fas fa-minus"></i> Reduzir</button>
+        <button onclick="alterarCombustivel(5)"><i class="fas fa-plus"></i> Aumentar</button>
+      </div>
     </section>
+  </main>
 
+  <footer>
+    <p>&copy; 2025 Painel de Avião Interativo. Criado com elegância e inovação.</p>
+  </footer>
 </body>
-</html>
 
+</html>
