@@ -7,7 +7,7 @@ let combustivel = 100; // % de combustível
 let flaps = 0;
 let tremPouso = false; // false: recolhido, true: baixado
 let autopilot = false;  // modo piloto automático
-const autonomiaTotal = 6500; // autonomia total em km com 100% de combustível
+const autonomiaTotal = 13500; // autonomia total em km com 100% de combustível
 
 // ------------------------------
 // Função para atualizar displays
@@ -230,5 +230,3 @@ document.getElementById('btnCalcularRota').addEventListener('click', () => {
     alert('Selecione países válidos!');
   }
 });
-
-
