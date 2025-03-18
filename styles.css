@@ -7,7 +7,7 @@ body {
 }
 
 header {
-    background-color: #fd834e;
+    background-color:rgb(105, 177, 229);
     color: white;
     padding: 15px;
 }
@@ -28,8 +28,8 @@ header {
 }
 
 button {
-    background-color: #fd834e;
-    color: white;
+    background-color:rgb(140, 203, 255);
+    color: rgb(29, 28, 28);
     border: none;
     padding: 10px 20px;
     margin: 5px;
